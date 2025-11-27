@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=altrade'
+      - 'POSTGRES_PASSWORD=altrade'
+      - 'POSTGRES_USER=altrade'
+    ports:
+      - '5432:5432'

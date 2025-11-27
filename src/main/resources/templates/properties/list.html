@@ -1,0 +1,74 @@
+<th:block th:replace="~{shared/_adminLayout::layout('Property Admin', ~{::main}, null, null)}">
+
+    <main class="container mt-3">
+
+        <div class="row g-4">
+            <div class="col-auto">
+                <a href="/properties/new" class="btn-link">Create new property</a>
+            </div>
+            <div class="col-auto">
+                <label for="propertySearch">Search</label>
+
+            </div>
+            <div class="col-auto">
+                <input type="search" id="propertySearch" class="form-control">
+            </div>
+            <div class="col-auto">
+                    <button type="button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+
+        <div>
+            <hr>
+        </div>
+
+        <table class="table table-hover table-bordered table-striped" th:if="${properties.size()>0}">
+            <thead>
+            <tr>
+                <td>#</td>
+                <td>Title</td>
+                <td>Content</td>
+                <td>Price</td>
+                <td>Location</td>
+                <td>Type</td>
+                <td>Bed</td>
+                <td>Bath</td>
+                <td>Meters</td>
+                <td>Image</td>
+                <td>FloorNo</td>
+                <td>DoorNumber</td>
+                <td>Passive</td>
+                <td>Sold</td>
+                <td>(action)</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="property:${properties}" th:object="${property}">
+                <td th:text="*{id}"></td>
+                <td th:text="*{title}"></td>
+                <td th:text="*{description}"></td>
+                <td th:text="*{price}"></td>
+                <td th:text="*{location}"></td>
+                <td th:text="*{type}"></td>
+                <td th:text="*{bedrooms}"></td>
+                <td th:text="*{bathrooms}"></td>
+                <td th:text="*{squareMeters}"></td>
+                <td th:text="*{image}"></td>
+                <td th:text="*{floorNo}"></td>
+                <td th:text="*{doorNumber}"></td>
+                <td th:text="*{passive}"></td>
+                <td th:text="*{sold}"></td>
+                <td>
+                    <a th:href="@{/properties/edit/{id}(id=*{id})}">Edit</a>
+                    <a th:href="@{/properties/delete/{id}(id=*{id})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:unless="${properties.size()>0}">
+            <p>No properties found! Start registering now!...</p>
+        </div>
+
+
+    </main>
+</th:block>
