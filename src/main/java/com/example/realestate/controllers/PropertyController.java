@@ -40,4 +40,34 @@ public class PropertyController {
         return "properties/edit";
     }
 
+    @PostMapping("/edit/{id}")
+    public String updateProperty(@PathVariable UUID id, @ModelAttribute Property property) {
+        propertyService.modify(id, property);
+        return "redirect:/properties";
+    }
+
+    @GetMapping("/view/{id}")
+    public String viewProperty(@PathVariable UUID id, Model model) {
+        var property = propertyService.findById(id);
+        model.addAttribute("property", property);
+        model.addAttribute("page","VIEW");
+        return "properties/view";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String getDeleteProperty(@PathVariable UUID id, Model model) {
+        var property = propertyService.findById(id);
+        model.addAttribute("property", property);
+        model.addAttribute("page","DELETE");
+        return "properties/delete";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteProperty(@PathVariable UUID id) {
+        propertyService.deleteById(id);
+        return "redirect:/properties"; // kjo e nderron URL-in e browserit prej ku je ku don me shku
+    }
+
+
+
 }

@@ -1,7 +1,7 @@
 <th:block th:replace="~{shared/_adminLayout::layout('New Property', ~{::main}, null, null)}">
     <main class="container mt-3">
 
-        <form action="/properties/new" method="post" th:object="${property}">
+        <form th:action="@{/properties/new}" method="post" th:object="${property}">
 
             <div class="input-group mb-3">
                 <span class="input-group-text col-2">Title</span>
@@ -73,8 +73,8 @@
                 <input type="checkbox" class="form-check-input m-2" th:field="*{sold}" style="width:25px; height:25px;">
             </div>
             <hr>
-<!--            <button type="submit" class="btn btn-primary">Save</button>-->
-            <input type="submit" value="Save" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">Save</button>
+<!--            <input type="submit" value="Save" class="btn btn-primary">-->
             <button type="reset" class="btn btn-secondary">Reset</button>
             <a href="/properties">Back to previous page</a>
         </form>

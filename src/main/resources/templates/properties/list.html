@@ -59,8 +59,9 @@
                 <td th:text="*{passive}"></td>
                 <td th:text="*{sold ? '✅' : '❌'}"></td>
                 <td>
-                    <a th:href="@{/properties/edit/{id}(id=*{id})}">Edit</a>
-                    <a th:href="@{/properties/delete/{id}(id=*{id})}">Delete</a>
+                    <a th:href="@{/properties/view/{id}(id=*{id})}" class="btn btn-sm btn-info">View</a>
+                    <a th:href="@{/properties/edit/{id}(id=*{id})}" class="btn btn-sm btn-warning">Edit</a>
+                    <a th:href="@{/properties/delete/{id}(id=*{id})}" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
             </tbody>

@@ -1,0 +1,14 @@
+<th:block th:replace="~{shared/_adminLayout::layout('Delete Property', ~{::main}, null, null)}">
+    <main class="container mt-3">
+
+        <h3>Delete Property</h3>
+        <hr>
+        <th:block th:replace="~{properties/view::main}"></th:block>
+
+        <hr>
+        <form th:action="@{/properties/delete/{id}(id=${property.id})}" method="post">
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        </form>
+
+    </main>
+</th:block>

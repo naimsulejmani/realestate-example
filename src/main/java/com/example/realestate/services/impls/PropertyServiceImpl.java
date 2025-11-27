@@ -54,6 +54,14 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public void deleteById(UUID id) {
+
+        var property = propertyRepository.findById(id);
+        if(property==null) {
+            return;
+        }
+        if(property.get().isSold()==true) {
+            throw new RuntimeException("Cannot delete sold property");
+        }
         propertyRepository.deleteById(id);
     }
 }
