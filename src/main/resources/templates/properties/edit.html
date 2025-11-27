@@ -1,0 +1,91 @@
+<th:block th:replace="~{shared/_adminLayout::layout('Edit Property', ~{::main}, null, null)}">
+    <main class="container mt-3">
+
+        <div th:if="${property!=null}">
+            <form th:action="@{/properties/edit/{id}(id=${property.id})}" method="post" th:object="${property}">
+                <input type="hidden" th:field="*{id}">
+
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Title</span>
+                    <input type="text" class="form-control" th:field="*{title}" autofocus>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Description</span>
+                    <input type="text" class="form-control" th:field="*{description}">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Price</span>
+                    <input type="number" class="form-control" th:field="*{price}" min="0" step="10">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Location</span>
+                    <input type="text" class="form-control" th:field="*{location}">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Type</span>
+                    <select th:field="*{type}" class="form-select">
+                        <option value="">None</option>
+                        <option value="APARTMENT">Apartment</option>
+                        <option value="HOUSE">House</option>
+                        <option value="LAND">Land</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Bedrooms</span>
+                    <input type="number" class="form-control" th:field="*{bedrooms}" min="0" max="10" step="1">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Bathrooms</span>
+                    <input type="number" class="form-control" th:field="*{bathrooms}" min="0" max="5" step="0.5">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">SquareMeters</span>
+                    <input type="number" class="form-control" th:field="*{squareMeters}" min="0" max="10000" step="1">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Image</span>
+                    <input type="url" class="form-control" th:field="*{image}">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">FloorNo</span>
+                    <input type="number" class="form-control" th:field="*{floorNo}" min="0" max="100" step="1">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">DoorNumber</span>
+                    <input type="number" class="form-control" th:field="*{doorNumber}" min="0" max="1000" step="1">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Passive</span>
+                    <input type="checkbox" class="form-check-input m-2" th:field="*{passive}" style="width:25px; height:25px;">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text col-2">Sold</span>
+                    <input type="checkbox" class="form-check-input m-2" th:field="*{sold}" style="width:25px; height:25px;">
+                </div>
+                <hr>
+                <!--            <button type="submit" class="btn btn-primary">Save</button>-->
+                <input type="submit" value="Save" class="btn btn-primary">
+                <button type="reset" class="btn btn-secondary">Reset</button>
+                <a href="/properties">Back to previous page</a>
+            </form>
+        </div>
+        <div th:unless="${property!=null}" class="col">
+            <p>Property not found!</p>
+            <a href="/properties">Back to previous page</a>
+        </div>
+
+    </main>
+</th:block>

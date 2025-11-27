@@ -53,11 +53,11 @@
                 <td th:text="*{bedrooms}"></td>
                 <td th:text="*{bathrooms}"></td>
                 <td th:text="*{squareMeters}"></td>
-                <td th:text="*{image}"></td>
+                <td><img th:src="*{image}" alt="property image" style="width:100px; height: 100px"></td>
                 <td th:text="*{floorNo}"></td>
                 <td th:text="*{doorNumber}"></td>
                 <td th:text="*{passive}"></td>
-                <td th:text="*{sold}"></td>
+                <td th:text="*{sold ? '✅' : '❌'}"></td>
                 <td>
                     <a th:href="@{/properties/edit/{id}(id=*{id})}">Edit</a>
                     <a th:href="@{/properties/delete/{id}(id=*{id})}">Delete</a>

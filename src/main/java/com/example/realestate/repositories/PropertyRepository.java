@@ -4,6 +4,7 @@ import com.example.realestate.models.Property;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import tools.jackson.databind.annotation.JsonAppend;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +19,9 @@ public interface PropertyRepository extends JpaRepository<Property, UUID> {
 
     public List<Property> findAllByPriceBetween
             (double minPrice, double maxPrice);
-    //SELECT * FROM properties WHERE price BETWEEN ? AND ?
-
     public List<Property> findAllByTitleContainsOrLocationContains(
+            //SELECT * FROM properties WHERE price BETWEEN ? AND ?
+
             String title, String location
     );
     //SELECT * FROM properties WHERE title LIKE ? OR location LIKE ?
@@ -33,6 +34,11 @@ public interface PropertyRepository extends JpaRepository<Property, UUID> {
 
     public int countAllByLocationContains(String location);
     //SELECT COUNT(*) FROM properties WHERE location LIKE ?
+
+
+    public List<Property> findAllByTypeAndBathroomsOrderByPriceDesc(String type, float bathroom);
+    // SELECT * FROM properties WHERE type = ? AND bathrooms = ? ORDER BY price DESC
+
 
 }
 

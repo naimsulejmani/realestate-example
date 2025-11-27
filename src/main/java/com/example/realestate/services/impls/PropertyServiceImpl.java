@@ -33,9 +33,11 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property add(Property property) {
-        var existProperty = propertyRepository.existsById(property.getId());
-        if (existProperty) {
-            throw new RuntimeException("Property already exists");
+        if(property.getId()!=null) {
+            var existProperty = propertyRepository.existsById(property.getId());
+            if (existProperty) {
+                throw new RuntimeException("Property already exists");
+            }
         }
 
         return propertyRepository.save(property);
