@@ -2,21 +2,35 @@
 
     <main class="container mt-3">
 
-        <div class="row g-4">
-            <div class="col-auto">
-                <a href="/properties/new" class="btn-link">Create new property</a>
+        <form th:action="@{/properties}" method="get">
+            <div class="row g-6">
+                <div class="col-auto">
+                    <a href="/properties/new" class="btn-link">Create new property</a>
+                </div>
+                <div class="col-auto">
+                    Type
+                </div>
+                <div class="col-auto">
+                    <select id="filterType" name="filterType" class="form-select">
+                        <option value="" th:selected="${filterType == ''}">None</option>
+                        <option value="APARTMENT" th:selected="${filterType == 'APARTMENT'}">Apartment</option>
+                        <option value="HOUSE" th:selected="${filterType == 'HOUSE'}"  >House</option>
+                        <option value="LAND"th:selected="${filterType == 'LAND'}">Land</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label for="propertySearch">Search</label>
+                </div>
+                <div class="col-auto">
+                    <input type="search" id="propertySearch" class="form-control"
+                    name="filterText" th:value="${filterText}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">🔍 Search</button>
+                    <a href="/properties" class="btn-link">Reset</a>
+                </div>
             </div>
-            <div class="col-auto">
-                <label for="propertySearch">Search</label>
-
-            </div>
-            <div class="col-auto">
-                <input type="search" id="propertySearch" class="form-control">
-            </div>
-            <div class="col-auto">
-                    <button type="button" class="btn btn-primary">Search</button>
-            </div>
-        </div>
+        </form>
 
         <div>
             <hr>

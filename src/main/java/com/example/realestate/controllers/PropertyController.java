@@ -16,9 +16,14 @@ public class PropertyController {
 
     private final PropertyService propertyService;
 
+    //http://localhost:8080/properties?filterText=naimi&filterType=APARTMENT
     @GetMapping
-    public String listProperties(Model model) {
-        model.addAttribute("properties", propertyService.findAll());
+    public String listProperties(@RequestParam(required = false) String filterText,
+                                 @RequestParam(required = false) String filterType,
+                                 Model model) {
+        model.addAttribute("properties", propertyService.findAllBy(filterType, filterText));
+        model.addAttribute("filterType", filterType);
+        model.addAttribute("filterText", filterText);
         return "properties/list";
     }
 
@@ -35,7 +40,7 @@ public class PropertyController {
     }
 
     @GetMapping("/edit/{id}")
-    public String getEditProperty(@PathVariable UUID id,Model model ) {
+    public String getEditProperty(@PathVariable UUID id, Model model) {
         model.addAttribute("property", propertyService.findById(id));
         return "properties/edit";
     }
@@ -50,7 +55,7 @@ public class PropertyController {
     public String viewProperty(@PathVariable UUID id, Model model) {
         var property = propertyService.findById(id);
         model.addAttribute("property", property);
-        model.addAttribute("page","VIEW");
+        model.addAttribute("page", "VIEW");
         return "properties/view";
     }
 
@@ -58,7 +63,7 @@ public class PropertyController {
     public String getDeleteProperty(@PathVariable UUID id, Model model) {
         var property = propertyService.findById(id);
         model.addAttribute("property", property);
-        model.addAttribute("page","DELETE");
+        model.addAttribute("page", "DELETE");
         return "properties/delete";
     }
 
@@ -67,7 +72,6 @@ public class PropertyController {
         propertyService.deleteById(id);
         return "redirect:/properties"; // kjo e nderron URL-in e browserit prej ku je ku don me shku
     }
-
 
 
 }

@@ -3,12 +3,13 @@ package com.example.realestate.services.impls;
 import com.example.realestate.models.Property;
 import com.example.realestate.repositories.PropertyRepository;
 import com.example.realestate.services.PropertyService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.example.realestate.helpers.Helper.isNullOrBlank;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property add(Property property) {
-        if(property.getId()!=null) {
+        if (property.getId() != null) {
             var existProperty = propertyRepository.existsById(property.getId());
             if (existProperty) {
                 throw new RuntimeException("Property already exists");
@@ -56,12 +57,26 @@ public class PropertyServiceImpl implements PropertyService {
     public void deleteById(UUID id) {
 
         var property = propertyRepository.findById(id);
-        if(property==null) {
+        if (property == null) {
             return;
         }
-        if(property.get().isSold()==true) {
+        if (property.get().isSold() == true) {
             throw new RuntimeException("Cannot delete sold property");
         }
         propertyRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Property> findAllBy(String filterType, String filterText) {
+        //check if is null or empty for both cases
+        if (isNullOrBlank(filterType) && isNullOrBlank(filterText)) {
+            return propertyRepository.findAll();
+        } else if (!isNullOrBlank(filterType) && isNullOrBlank(filterText)) {
+            return propertyRepository.findAllByType(filterType);
+        } else if (isNullOrBlank(filterType) && !isNullOrBlank(filterText)) {
+            return propertyRepository.findAllByTitleContainsOrLocationContainsOrDescriptionContains(filterText, filterText, filterText);
+        } else {
+            return propertyRepository.findAllByTypeAndTitleContainsOrLocationContainsOrDescriptionContains(filterType, filterText, filterText, filterText);
+        }
     }
 }

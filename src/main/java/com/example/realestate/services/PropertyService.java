@@ -17,4 +17,6 @@ public interface PropertyService {
     public Property modify(UUID id, Property property);
 
     public void deleteById(UUID id);
+
+    List<Property> findAllBy(String filterType, String filterText);
 }
