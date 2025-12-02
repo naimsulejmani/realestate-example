@@ -1,6 +1,7 @@
 package com.example.realestate.controllers;
 
-import com.example.realestate.models.Property;
+import com.example.realestate.dtos.PropertyDto;
+import com.example.realestate.entities.Property;
 import com.example.realestate.services.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,12 +30,12 @@ public class PropertyController {
 
     @GetMapping("/new")
     public String newProperty(Model model) {
-        model.addAttribute("property", new Property());
+        model.addAttribute("property", new PropertyDto());
         return "properties/new";
     }
 
     @PostMapping("/new")
-    public String saveProperty(@ModelAttribute Property property) {
+    public String saveProperty(@ModelAttribute PropertyDto property) {
         propertyService.add(property);
         return "redirect:/properties";
     }
@@ -46,7 +47,7 @@ public class PropertyController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProperty(@PathVariable UUID id, @ModelAttribute Property property) {
+    public String updateProperty(@PathVariable UUID id, @ModelAttribute PropertyDto property) {
         propertyService.modify(id, property);
         return "redirect:/properties";
     }

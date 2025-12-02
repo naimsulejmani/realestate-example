@@ -1,6 +1,8 @@
 package com.example.realestate.services.impls;
 
-import com.example.realestate.models.Property;
+import com.example.realestate.dtos.PropertyDto;
+import com.example.realestate.entities.Property;
+import com.example.realestate.mappers.PropertyMapper;
 import com.example.realestate.repositories.PropertyRepository;
 import com.example.realestate.services.PropertyService;
 import lombok.RequiredArgsConstructor;
@@ -16,41 +18,46 @@ import static com.example.realestate.helpers.Helper.isNullOrBlank;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
-
-//    public PropertyServiceImpl(PropertyRepository propertyRepository) {
-//        this.propertyRepository = propertyRepository;
-//    }
+    private final PropertyMapper propertyMapper;
 
     @Override
-    public List<Property> findAll() {
-        return propertyRepository.findAll();
+    public List<PropertyDto> findAll() {
+        List<Property> properties = propertyRepository.findAll();
+
+        return propertyMapper.toDtos(properties);
     }
 
     @Override
-    public Property findById(UUID id) {
-        //direct method addrressin, direct constructor addressing
-        return propertyRepository.findById(id).orElse(null);
+    public PropertyDto findById(UUID id) {
+        Property property = propertyRepository.findById(id).orElse(null);
+
+        return propertyMapper.toDto(property);
     }
 
     @Override
-    public Property add(Property property) {
+    public PropertyDto add(PropertyDto property) {
         if (property.getId() != null) {
             var existProperty = propertyRepository.existsById(property.getId());
             if (existProperty) {
                 throw new RuntimeException("Property already exists");
             }
         }
-
-        return propertyRepository.save(property);
+        Property propertyEntity = propertyMapper.toEntity(property);
+        propertyRepository.save(propertyEntity);
+        return propertyMapper.toDto(propertyEntity);
     }
 
     @Override
-    public Property modify(UUID id, Property property) {
+    public PropertyDto modify(UUID id, PropertyDto property) {
         var existsProperty = propertyRepository.existsById(id);
         if (!existsProperty) {
             throw new RuntimeException("Property does not exists");
         }
-        return propertyRepository.save(property);
+
+        Property propertyEntity = propertyMapper.toEntity(property);
+        propertyEntity.setId(id);
+        propertyRepository.save(propertyEntity);
+        return propertyMapper.toDto(propertyEntity);
     }
 
     @Override
@@ -67,16 +74,19 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<Property> findAllBy(String filterType, String filterText) {
+    public List<PropertyDto> findAllBy(String filterType, String filterText) {
+        List<Property> properties = null;
         //check if is null or empty for both cases
         if (isNullOrBlank(filterType) && isNullOrBlank(filterText)) {
-            return propertyRepository.findAll();
+            properties = propertyRepository.findAll();
         } else if (!isNullOrBlank(filterType) && isNullOrBlank(filterText)) {
-            return propertyRepository.findAllByType(filterType);
+            properties = propertyRepository.findAllByType(filterType);
         } else if (isNullOrBlank(filterType) && !isNullOrBlank(filterText)) {
-            return propertyRepository.findAllByTitleContainsOrLocationContainsOrDescriptionContains(filterText, filterText, filterText);
+            properties = propertyRepository.findAllByTitleContainsOrLocationContainsOrDescriptionContains(filterText, filterText, filterText);
         } else {
-            return propertyRepository.findAllByTypeAndTitleContainsOrLocationContainsOrDescriptionContains(filterType, filterText, filterText, filterText);
+            properties = propertyRepository.findAllByTypeAndTitleContainsOrLocationContainsOrDescriptionContains(filterType, filterText, filterText, filterText);
         }
+
+        return propertyMapper.toDtos(properties);
     }
 }
